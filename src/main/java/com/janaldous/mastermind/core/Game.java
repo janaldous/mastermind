@@ -3,18 +3,25 @@ package com.janaldous.mastermind.core;
 public class Game {
 
 	private Board board;
+	private int curIndex;
 	
 	public Game() {
 		int[] code = createRandomCode();
 		board = new Board(code);
+		curIndex = 0;
 	}
 	
 	public Game(Board board) {
 		this.board = board;
+		curIndex = 0;
+	}
+	
+	public boolean canGuess() {
+		return curIndex < Board.MAX_GUESSES;
 	}
 	
 	public GuessResult guess(int[] pegs) {
-		// validate guess
+		// TODO move to GUI validate guess
 		if (pegs.length != 4) {
 			throw new IllegalArgumentException("Invalid peg input");
 		}
@@ -27,6 +34,9 @@ public class Game {
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
 		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
 		GuessResult result = new GuessResult(redPegs, whitePegs);
+		Row row = new Row(pegs);
+		row.setResult(result);
+		board.guess(row, curIndex++);
 		
 		return result;
 	}
