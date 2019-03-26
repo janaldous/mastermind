@@ -20,8 +20,8 @@ public class BoardFrame extends JFrame {
     private static final int FRAME_X_ORIGIN = 450;
     private static final int FRAME_Y_ORIGIN = 100;
     
-    private JLabel jlCorrectPosition[];
-    private JLabel jlCorrectColor[];
+    private JLabel jlRedPegs[];
+    private JLabel jlWhitePegs[];
 	
 	public BoardFrame(Game game, Board board) {
 		setTitle ("Mastermind");
@@ -29,23 +29,23 @@ public class BoardFrame extends JFrame {
         setLocation  (FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
         setResizable(false);
         
-        jlCorrectPosition = new JLabel[Board.MAX_GUESSES];
-        jlCorrectColor = new JLabel[Board.MAX_GUESSES];
+        jlRedPegs = new JLabel[Board.MAX_GUESSES];
+        jlWhitePegs = new JLabel[Board.MAX_GUESSES];
         
         //correct color and position
         int guessR = 50;
         for (int i = 0; i < Board.MAX_GUESSES; i++) {
-        	jlCorrectPosition[i] = new JLabel();
-        	jlCorrectPosition[i].setText(0 + "");
-        	jlCorrectPosition[i].setForeground(Color.RED);
-        	jlCorrectPosition[i].setBounds(330, guessR, 40, 25);
+        	jlRedPegs[i] = new JLabel();
+        	jlRedPegs[i].setText(0 + "");
+        	jlRedPegs[i].setForeground(Color.RED);
+        	jlRedPegs[i].setBounds(330, guessR, 40, 25);
             
-        	jlCorrectColor[i] = new JLabel();
-        	jlCorrectColor[i].setText(0 + "");
-        	jlCorrectColor[i].setBounds(370, guessR, 40, 25);
+        	jlWhitePegs[i] = new JLabel();
+        	jlWhitePegs[i].setText(0 + "");
+        	jlWhitePegs[i].setBounds(370, guessR, 40, 25);
 
-        	add(jlCorrectPosition[i]);
-        	add(jlCorrectColor[i]);
+        	add(jlRedPegs[i]);
+        	add(jlWhitePegs[i]);
 
             guessR += 50;
         }
