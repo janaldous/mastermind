@@ -239,14 +239,12 @@ public class BoardFrame extends JFrame implements ActionListener {
 	private void askPlayAgain() {
 		int selection = JOptionPane.showConfirmDialog(this,
                 "Do you want to play again?",
-                "Play again?",
+                "New game?",
                 JOptionPane.YES_NO_OPTION);
 
         if (selection == JOptionPane.YES_OPTION) {
             startNewGame();
-        } else if (selection == JOptionPane.NO_OPTION) {
-            System.exit(0);
-        }   
+        }
 	}
 
 	private void startNewGame() {
