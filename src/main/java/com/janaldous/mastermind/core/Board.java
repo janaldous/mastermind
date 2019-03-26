@@ -11,7 +11,7 @@ public class Board {
 		rows = new Row[MAX_GUESSES];
 	}
 	
-	public void guess(Row row, int index) {
+	void guess(Row row, int index) {
 		rows[index] = row;
 	}
 	

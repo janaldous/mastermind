@@ -5,35 +5,34 @@ public class Game {
 	private Board board;
 	private int curIndex;
 	
-	public Game() {
-		int[] code = createRandomCode();
-		board = new Board(code);
-		curIndex = 0;
-	}
-	
 	public Game(Board board) {
 		this.board = board;
 		curIndex = 0;
 	}
-	
-	public boolean canGuess() {
+
+	public boolean hasNextGuess() {
 		return curIndex < Board.MAX_GUESSES;
 	}
 	
-	public GuessResult guess(int[] pegs) {
-		// TODO move to GUI validate guess
+	public GuessResult guess(int[] pegs) throws NoMoreGuessesException {
 		if (pegs.length != 4) {
-			throw new IllegalArgumentException("Invalid peg input");
+			throw new IllegalArgumentException("Invalid number of pegs");
 		}
+		
 		for (int peg: pegs) {
-			if (peg > Board.NO_OF_COLORS && peg <= 0) {
+			if (peg > Board.NO_OF_COLORS || peg <= 0) {
 				throw new IllegalArgumentException("Invalid peg input");
 			}
 		}
 		
+		if (!hasNextGuess()) {
+			throw new NoMoreGuessesException();
+		}
+		
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
 		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
-		GuessResult result = new GuessResult(redPegs, whitePegs);
+		
+		GuessResult result = new GuessResult(redPegs, whitePegs, redPegs == 4);
 		Row row = new Row(pegs);
 		row.setResult(result);
 		board.guess(row, curIndex++);
@@ -74,14 +73,4 @@ public class Game {
         
         return whitePegs;
     }
-
-	private int[] createRandomCode() {
-		int ans[] = new int[4];
-		for (int j = 0; j < 4; j++)
-        {
-            ans[j]  = (int) Math.floor(Math.random() * Board.NO_OF_COLORS) +1;
-        }
-		return ans;
-	}
-	
 }
