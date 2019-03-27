@@ -39,10 +39,10 @@ public class Controller {
 	}
 
 	private void makeGuess() {
-		int curIndex = model.getCurrentRowIndex();
 		if (!model.hasNextGuess()) {
 			throw new NoMoreGuessesException();
 		}
+		int curIndex = model.getCurrentRowIndex();
 		int row[] = model.getRowGuess(curIndex);
 		for (int i = 0; i < row.length; i++) {
 			if (row[i] <= 0 || row[i] > Board.NO_OF_COLORS) {
