@@ -35,7 +35,8 @@ public class Game {
 		GuessResult result = new GuessResult(redPegs, whitePegs, redPegs == 4);
 		Row row = new Row(pegs);
 		row.setResult(result);
-		board.guess(row, curIndex++);
+		
+		curIndex++;
 		
 		return result;
 	}
@@ -52,8 +53,7 @@ public class Game {
         return redPegs;
 	}
 	
-	private int getCorrectColors(int guess[], int answer[])
-    {
+	private int getCorrectColors(int guess[], int answer[]) {
 		int whitePegs = 0;
 		int guessColors[] = new int[Board.NO_OF_COLORS+1];
 		int answerColors[] = new int[Board.NO_OF_COLORS+1];
@@ -73,4 +73,8 @@ public class Game {
         
         return whitePegs;
     }
+
+	public int getCurrentRowIndex() {
+		return curIndex;
+	}
 }

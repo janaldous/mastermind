@@ -9,10 +9,9 @@ public class Board {
 	public Board(int[] code) {
 		this.answer = new Row(code);
 		rows = new Row[MAX_GUESSES];
-	}
-	
-	void guess(Row row, int index) {
-		rows[index] = row;
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new Row();
+		}
 	}
 	
 	public Row getRow(int index) {
@@ -24,5 +23,9 @@ public class Board {
 	 */
 	public Row getAnswer() {
 		return answer;
+	}
+
+	public void setColor(int row, int col, int color) {
+		rows[row].setColor(col, color);
 	}
 }

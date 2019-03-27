@@ -1,8 +1,6 @@
 package com.janaldous.mastermind.gui;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,10 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.janaldous.mastermind.core.Board;
-import com.janaldous.mastermind.core.Game;
-import com.janaldous.mastermind.core.GuessResult;
 
-public class BoardFrame extends JFrame implements ActionListener {
+public class BoardFrame extends JFrame {
 
 	/**
 	 *  
@@ -44,19 +40,10 @@ public class BoardFrame extends JFrame implements ActionListener {
     private JButton jbColumn3;
     private JButton jbColumn4;
     
-    private int row[];
-    private int curRowIndex;
-
-	private Game game;
-	private Board board;
-
-	public BoardFrame(Game game, Board board) {
-		this.game = game;
-		this.board = board;
-		
-		setTitle ("Mastermind");
-        setSize  (FRAME_WIDTH, FRAME_HEIGHT);
-        setLocation  (FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
+	public BoardFrame(String title) {
+		setTitle(title);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        setLocation(FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
         setResizable(false);
         
         jlRedPegs = new JLabel[Board.MAX_GUESSES];
@@ -64,7 +51,7 @@ public class BoardFrame extends JFrame implements ActionListener {
         jlBoardColumn = new JLabel[Board.MAX_GUESSES][4];
         jlAnswer = new JLabel[4];
         
-        String emptyPeg = getFilePath("peg0.png");
+        String emptyPeg = getPegFilename(0);
     	
         // Set guess grid
         int yPosition = 50;
@@ -104,7 +91,7 @@ public class BoardFrame extends JFrame implements ActionListener {
         // Answer row
         int xPosition = 50;
         for (int i = 0; i < 4; i++) {
-            jlAnswer[i] = new JLabel(new ImageIcon(getFilePath("peg" + board.getAnswer().getRow()[i] + ".png"))); 
+            jlAnswer[i] = new JLabel(new ImageIcon(emptyPeg));
             jlAnswer[i].setBounds(xPosition, yPosition, PEG_WIDTH, PEG_HEIGHT);
             jlAnswer[i].setVisible(false);
             add(jlAnswer[i]);
@@ -149,106 +136,24 @@ public class BoardFrame extends JFrame implements ActionListener {
         
         add(new JLabel(""));
 
-        jbQuit.addActionListener(this);
-        jbGuess.addActionListener(this);
-        jbHelp.addActionListener(this);
-        jbColumn1.addActionListener(this);
-        jbColumn2.addActionListener(this);
-        jbColumn3.addActionListener(this);
-        jbColumn4.addActionListener(this);
-        
-        startNewGame();
-        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	private void clearRowData() {
-		row = new int[4];
-        for (int i = 0; i < row.length; i++) {
-			row[i] = 0;
-		}
+	private String getPegFilename(int num) {
+		return getFilePath("peg" + num + ".png");
 	}
-
+	
 	private String getFilePath(String fileName) {
 		ClassLoader classLoader = getClass().getClassLoader();
     	return classLoader.getResource(fileName).getPath();
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		JButton clickedButton = (JButton) event.getSource();
-		if (clickedButton == jbColumn1 || clickedButton == jbColumn2 
-				|| clickedButton == jbColumn3 || clickedButton == jbColumn4) {
-
-			int col = 3;
-			if (clickedButton == jbColumn1) {
-				col = 0;
-			} else if (clickedButton == jbColumn2) {
-				col = 1;
-			} else if (clickedButton == jbColumn3) {
-				col = 2;
-			} else {
-				col = 3;
-			}
-			
-			row[col]++;
-
-            if (row[col] == Board.NO_OF_COLORS+1) {
-            	row[col] = 1;
-            }
-
-            String pegName = getFilePath("peg"+row[col]+".png"); 
-            ImageIcon img = new ImageIcon(pegName);                    
-            jlBoardColumn[curRowIndex][col].setIcon(img);                                       
-		} else if (clickedButton == jbGuess) {
-			makeGuess();
-		}
-	}
-	
-	private void showMessage(String message) {
+	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
 
-	private void makeGuess() {
-		for (int i = 0; i < row.length; i++) {
-			if (row[i] <= 0 || row[i] > Board.NO_OF_COLORS) {
-				showMessage("Invalid guess.");
-				return;
-			}
-		}
-		
-		GuessResult result = game.guess(row);
-		jlRedPegs[curRowIndex].setText(result.getRedPegs()+"");
-		jlRedPegs[curRowIndex].setVisible(true);
-		jlWhitePegs[curRowIndex].setText(result.getWhitePegs()+"");
-		jlWhitePegs[curRowIndex].setVisible(true);
-		
-		if (result.hasWon()) {
-			showMessage("Congratulations!\nYou have guessed the correct color combination.");
-			showAnswer();
-			askPlayAgain();
-		} else if (game.hasNextGuess()) {
-			curRowIndex++;
-			clearRowData();
-		} else  {
-			showMessage("Incorrect\nYou have not guessed the correct color combination.");
-			showAnswer();
-			askPlayAgain();
-		}
-	}
-
-	private void askPlayAgain() {
-		int selection = JOptionPane.showConfirmDialog(this,
-                "Do you want to play again?",
-                "New game?",
-                JOptionPane.YES_NO_OPTION);
-
-        if (selection == JOptionPane.YES_OPTION) {
-            startNewGame();
-        }
-	}
-
-	private void startNewGame() {
-		String emptyPeg = getFilePath("peg0.png");
+	public void startNewGame(int[] answer) {
+		String emptyPeg = getPegFilename(0);
 		// Set guess grid
         for (int i = 0; i < Board.MAX_GUESSES; i++) {
         	jlBoardColumn[i][0].setIcon(new ImageIcon(emptyPeg));
@@ -265,22 +170,57 @@ public class BoardFrame extends JFrame implements ActionListener {
         
         // Answer row
         for (int i = 0; i < 4; i++) {
-            jlAnswer[i].setIcon(new ImageIcon(getFilePath("peg" + board.getAnswer().getRow()[i] + ".png"))); 
+            jlAnswer[i].setIcon(new ImageIcon(getPegFilename(answer[i]))); 
             jlAnswer[i].setVisible(false);
         }
         
         jlCorrect.setVisible(false);
-        
-        clearRowData();
-
-        curRowIndex = 0;
 	}
 
-	private void showAnswer() {
+	public void showAnswer() {
 		for (int i = 0; i < 4; i++) {
             jlAnswer[i].setVisible(true);
         }
 
         jlCorrect.setVisible(true);
+	}
+
+	public void setAnswer(int[] answer) {
+		for (int i = 0; i < 4; i++) {
+            jlAnswer[i].setIcon(new ImageIcon(getPegFilename(answer[i]))); 
+        }
+	}
+
+	public void setGuessResult(int curIndex, int redPegs, int whitePegs) {
+		jlRedPegs[curIndex].setText(redPegs + "");
+		jlRedPegs[curIndex].setVisible(true);
+		jlWhitePegs[curIndex].setText(whitePegs + "");
+		jlWhitePegs[curIndex].setVisible(true);
+	}
+	
+	public void changePeg(int rowIndex, int columnIndex, int color) {
+		String pegName = getPegFilename(color); 
+        ImageIcon img = new ImageIcon(pegName);                    
+        jlBoardColumn[rowIndex][columnIndex].setIcon(img); 
+	}
+
+	public JButton getPeg1Button() {
+		return jbColumn1;
+	}
+	
+	public JButton getPeg2Button() {
+		return jbColumn2;
+	}
+	
+	public JButton getPeg3Button() {
+		return jbColumn3;
+	}
+	
+	public JButton getPeg4Button() {
+		return jbColumn4;
+	}
+
+	public JButton getJbGuess() {
+		return jbGuess;
 	}
 }

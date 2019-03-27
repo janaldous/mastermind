@@ -6,6 +6,9 @@ public class Row {
 	
 	public Row() {
 		row = new int[4];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = 0;
+		}
 	}
 
 	public Row(int[] guessRow) {
@@ -31,5 +34,9 @@ public class Row {
 	 */
 	public void setResult(GuessResult result) {
 		this.result = result;
+	}
+
+	public void setColor(int col, int color) {
+		row[col] = color;
 	}
 }

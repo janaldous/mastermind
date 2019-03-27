@@ -1,23 +1,15 @@
 package com.janaldous.mastermind;
 
-import com.janaldous.mastermind.core.Board;
-import com.janaldous.mastermind.core.Game;
-import com.janaldous.mastermind.gui.BoardFrame;
+import com.janaldous.mastermind.gui.Controller;
+import com.janaldous.mastermind.gui.Model;
+import com.janaldous.mastermind.gui.View;
 
 public class Main {
-	public static void main(String[] args) {
-		Board board = new Board(createRandomCode());
-		Game game = new Game(board);
-		BoardFrame jfBoard = new BoardFrame(game, board);
-		jfBoard.setVisible(true);
-	}
 	
-	private static int[] createRandomCode() {
-		int ans[] = new int[4];
-		for (int j = 0; j < 4; j++)
-        {
-            ans[j]  = (int) Math.floor(Math.random() * Board.NO_OF_COLORS) +1;
-        }
-		return ans;
+	public static void main(String[] args) {
+		Model m = new Model();
+		View v = new View("Mastermind");
+		Controller c = new Controller(m, v);
+		c.initController();
 	}
 }
