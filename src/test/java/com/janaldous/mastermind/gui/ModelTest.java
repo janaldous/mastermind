@@ -19,10 +19,7 @@ public class ModelTest {
 		assertEquals(1, color);
 		
 		color = model.toggleColor(0);
-		assertEquals(2, color);
-		
 		color = model.toggleColor(0);
-		assertEquals(3, color);
 		
 		int ans[] = model.getRowGuess(0);
 		assertArrayEquals(new int[] {3, 0, 0, 0}, ans);

@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.janaldous.mastermind.core.Board;
-
 public class BoardFrame extends JFrame {
 
 	/**
@@ -39,23 +37,27 @@ public class BoardFrame extends JFrame {
     private JButton jbColumn2;
     private JButton jbColumn3;
     private JButton jbColumn4;
+
+	private int rows;
     
-	public BoardFrame(String title) {
+	public BoardFrame(String title, int rows) {
+		this.rows = rows;
+		
 		setTitle(title);
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setLocation(FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
         setResizable(false);
         
-        jlRedPegs = new JLabel[Board.MAX_GUESSES];
-        jlWhitePegs = new JLabel[Board.MAX_GUESSES];
-        jlBoardColumn = new JLabel[Board.MAX_GUESSES][4];
+        jlRedPegs = new JLabel[rows];
+        jlWhitePegs = new JLabel[rows];
+        jlBoardColumn = new JLabel[rows][4];
         jlAnswer = new JLabel[4];
         
         String emptyPeg = getPegFilename(0);
     	
         // Set guess grid
         int yPosition = 50;
-        for (int i = 0; i < Board.MAX_GUESSES; i++) {
+        for (int i = 0; i < rows; i++) {
         	jlBoardColumn[i][0] = new JLabel(new ImageIcon(emptyPeg)); 
         	jlBoardColumn[i][0].setBounds(50+(70*0), yPosition, PEG_WIDTH, PEG_HEIGHT);
             add(jlBoardColumn[i][0]);
@@ -155,7 +157,7 @@ public class BoardFrame extends JFrame {
 	public void startNewGame(int[] answer) {
 		String emptyPeg = getPegFilename(0);
 		// Set guess grid
-        for (int i = 0; i < Board.MAX_GUESSES; i++) {
+        for (int i = 0; i < rows; i++) {
         	jlBoardColumn[i][0].setIcon(new ImageIcon(emptyPeg));
             jlBoardColumn[i][1].setIcon(new ImageIcon(emptyPeg));
             jlBoardColumn[i][2].setIcon(new ImageIcon(emptyPeg));

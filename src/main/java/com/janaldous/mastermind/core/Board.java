@@ -1,14 +1,17 @@
 package com.janaldous.mastermind.core;
 
 public class Board {
-	public final static int MAX_GUESSES = 3;
-	public final static int NO_OF_COLORS = 8;
+	
+	public int maxGuesses;
+	public int noOfColors;
 	private Row answer;
 	private Row[] rows;
 	
-	public Board(int[] code) {
+	public Board(int[] code, int maxGuesses, int noOfColors) {
 		this.answer = new Row(code);
-		rows = new Row[MAX_GUESSES];
+		this.maxGuesses = maxGuesses;
+		this.noOfColors = noOfColors;
+		rows = new Row[maxGuesses];
 		for (int i = 0; i < rows.length; i++) {
 			rows[i] = new Row();
 		}
@@ -31,5 +34,23 @@ public class Board {
 
 	public void setGuessResult(int row, GuessResult result) {
 		rows[row].setResult(result);
+	}
+
+	/**
+	 * @return the maxGuesses
+	 */
+	public int getMaxGuesses() {
+		return maxGuesses;
+	}
+
+	/**
+	 * @return the noOfColors
+	 */
+	public int getNoOfColors() {
+		return noOfColors;
+	}
+
+	public boolean isValidColor(int color) {
+		return color <= noOfColors && color > 0;
 	}
 }

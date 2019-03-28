@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 public class View {
 	private BoardFrame jfBoard;
 	
-	public View(String title) {
-		jfBoard = new BoardFrame(title);
+	public View(String title, int rows) {
+		jfBoard = new BoardFrame(title, rows);
 		showView();
 	}
 	

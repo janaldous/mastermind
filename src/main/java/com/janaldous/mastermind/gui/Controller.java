@@ -2,7 +2,6 @@ package com.janaldous.mastermind.gui;
 
 import javax.swing.JOptionPane;
 
-import com.janaldous.mastermind.core.Board;
 import com.janaldous.mastermind.core.GuessResult;
 import com.janaldous.mastermind.core.NoMoreGuessesException;
 
@@ -45,7 +44,7 @@ public class Controller {
 		int curIndex = model.getCurrentRowIndex();
 		int row[] = model.getRowGuess(curIndex);
 		for (int i = 0; i < row.length; i++) {
-			if (row[i] <= 0 || row[i] > Board.NO_OF_COLORS) {
+			if (!model.isValidColor(row[i])) {
 				view.showMessage("Invalid guess.");
 				return;
 			}

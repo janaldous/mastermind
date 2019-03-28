@@ -8,7 +8,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Model m = new Model();
-		View v = new View("Mastermind");
+		View v = new View("Mastermind", m.getNoOfGuesses());
 		Controller c = new Controller(m, v);
 		c.initController();
 	}

@@ -1,6 +1,7 @@
 package com.janaldous.mastermind.core;
 
 public class Row {
+	
 	private int[] row;
 	private GuessResult result;
 	

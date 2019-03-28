@@ -11,22 +11,22 @@ public class Game {
 	}
 
 	public boolean hasNextGuess() {
-		return curIndex < Board.MAX_GUESSES;
+		return curIndex < board.getMaxGuesses();
 	}
 	
 	public GuessResult guess(int[] pegs) throws NoMoreGuessesException {
-		if (pegs.length != 4) {
+		if (pegs == null || pegs.length != 4) {
 			throw new IllegalArgumentException("Invalid number of pegs");
-		}
-		
-		for (int peg: pegs) {
-			if (peg > Board.NO_OF_COLORS || peg <= 0) {
-				throw new IllegalArgumentException("Invalid peg input");
-			}
 		}
 		
 		if (!hasNextGuess()) {
 			throw new NoMoreGuessesException();
+		}
+		
+		for (int peg: pegs) {
+			if (!board.isValidColor(peg)) {
+				throw new IllegalArgumentException("Invalid peg input");
+			}
 		}
 		
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
@@ -54,8 +54,8 @@ public class Game {
 	
 	private int getCorrectColors(int guess[], int answer[]) {
 		int whitePegs = 0;
-		int guessColors[] = new int[Board.NO_OF_COLORS+1];
-		int answerColors[] = new int[Board.NO_OF_COLORS+1];
+		int guessColors[] = new int[board.getNoOfColors()+1];
+		int answerColors[] = new int[board.getNoOfColors()+1];
 		
 		for (int i = 0; i < 4; i++) {
 			if (guess[i] != answer[i]) {
@@ -64,7 +64,7 @@ public class Game {
 			}
         }
 		
-        for (int i = 0; i < Board.NO_OF_COLORS; i++) {
+        for (int i = 0; i < board.getNoOfColors(); i++) {
         	if (guessColors[i] > 0 && answerColors[i] > 0) {
         		whitePegs += Math.min(answerColors[i], guessColors[i]);
         	}
@@ -87,5 +87,13 @@ public class Game {
 
 	public Row getRow(int row) {
 		return board.getRow(row);
+	}
+
+	public int getNoOfColors() {
+		return board.getNoOfColors();
+	}
+
+	public boolean isValidColor(int color) {
+		return board.isValidColor(color);
 	}
 }

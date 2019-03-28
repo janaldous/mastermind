@@ -6,10 +6,24 @@ import com.janaldous.mastermind.core.GuessResult;
 
 public class Model {
 	
+	private int noOfColors;
+	private int maxGuesses;
 	private Game game;
-
+	
 	public Model() {
-		Board board = new Board(createRandomCode());
+		this.noOfColors = 3;
+		this.maxGuesses = 8;
+		initModel();
+	}
+	
+	public Model(int maxGuesses, int noOfColors) {
+		this.noOfColors = noOfColors;
+		this.maxGuesses = maxGuesses;
+		initModel();
+	}
+	
+	private void initModel() {
+		Board board = new Board(createRandomCode(), maxGuesses, noOfColors);
 		game = new Game(board);
 	}
 	
@@ -23,9 +37,8 @@ public class Model {
 
 	private int[] createRandomCode() {
 		int ans[] = new int[4];
-		for (int j = 0; j < 4; j++)
-        {
-            ans[j]  = (int) Math.floor(Math.random() * Board.NO_OF_COLORS) +1;
+		for (int j = 0; j < 4; j++) {
+            ans[j]  = (int) Math.floor(Math.random() * noOfColors) + 1;
         }
 		return ans;
 	}
@@ -47,7 +60,7 @@ public class Model {
 		
 		color++;
 
-        if (color > Board.NO_OF_COLORS) {
+        if (color > noOfColors) {
         	color = 1;
         }
         
@@ -58,5 +71,13 @@ public class Model {
 
 	public int[] getRowGuess(int curIndex) {
 		return game.getRow(curIndex).getRow();
+	}
+
+	public boolean isValidColor(int color) {
+		return game.isValidColor(color);
+	}
+
+	public int getNoOfGuesses() {
+		return maxGuesses;
 	}
 }
