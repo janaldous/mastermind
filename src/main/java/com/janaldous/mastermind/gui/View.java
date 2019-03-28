@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 public class View {
 	private BoardFrame jfBoard;
 	
-	public View(String title, int rows) {
-		jfBoard = new BoardFrame(title, rows);
+	public View(String title) {
+		jfBoard = new BoardFrame(title);
 		showView();
 	}
 	
@@ -33,8 +33,8 @@ public class View {
 		jfBoard.showAnswer();
 	}
 
-	public void startNewGame(int[] answer) {
-		jfBoard.startNewGame(answer);
+	public void startNewGame(int rows, int[] answer) {
+		jfBoard.startNewGame(rows, answer);
 	}
 
 	public JFrame getView() {

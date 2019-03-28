@@ -14,7 +14,7 @@ public class GameTest {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
-		int[] guess = {1,2,3,4};
+		int[] guess = {1,2,3,6};
 		game.guess(guess);
 		
 		assertEquals(1, game.getCurrentRowIndex());
@@ -90,6 +90,27 @@ public class GameTest {
 		
 		assertEquals(0, result.getRedPegs());
 		assertEquals(3, result.getWhitePegs());
+	}
+	
+	@Test
+	public void testGuessCorrectCombo() {
+		int[] answer = {1,2,4,4};
+		Board board = new Board(answer, 3, 8);
+		Game game = new Game(board);
+		int[] guess = {1,2,4,4};
+		GuessResult result = game.guess(guess);
+		
+		assertEquals(true, result.hasWon());
+	}
+	
+	@Test(expected = NoMoreGuessesException.class)
+	public void testGuessCorrectComboThenGuessAgain() {
+		int[] answer = {1,2,4,4};
+		Board board = new Board(answer, 3, 8);
+		Game game = new Game(board);
+		int[] guess = {1,2,4,4};
+		game.guess(guess);
+		game.guess(guess);
 	}
 	
 	@Test(expected = NoMoreGuessesException.class)

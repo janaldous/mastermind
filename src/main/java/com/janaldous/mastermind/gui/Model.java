@@ -2,7 +2,10 @@ package com.janaldous.mastermind.gui;
 
 import com.janaldous.mastermind.core.Board;
 import com.janaldous.mastermind.core.Game;
+import com.janaldous.mastermind.core.GameSettings;
 import com.janaldous.mastermind.core.GuessResult;
+import com.janaldous.mastermind.core.LevelSettings;
+import com.janaldous.mastermind.core.LevelSettingsFactory;
 
 public class Model {
 	
@@ -11,19 +14,22 @@ public class Model {
 	private Game game;
 	
 	public Model() {
-		this.noOfColors = 3;
-		this.maxGuesses = 8;
-		initModel();
+
 	}
 	
-	public Model(int maxGuesses, int noOfColors) {
-		this.noOfColors = noOfColors;
-		this.maxGuesses = maxGuesses;
-		initModel();
+	public Model(GameSettings settings) {
+		setLevelSettings(settings.getLevelSettings());
+		initModel(settings.getAnswer());
 	}
 	
-	private void initModel() {
-		Board board = new Board(createRandomCode(), maxGuesses, noOfColors);
+	public void setLevelSettings(LevelSettings settings) {
+		this.noOfColors = settings.getNoOfColors();
+		this.maxGuesses = settings.getNoOfGuesses();
+		initModel(createRandomCode());
+	}
+	
+	private void initModel(int answer[]) {
+		Board board = new Board(answer, maxGuesses, noOfColors);
 		game = new Game(board);
 	}
 	
@@ -79,5 +85,10 @@ public class Model {
 
 	public int getNoOfGuesses() {
 		return maxGuesses;
+	}
+
+	public void setLevelSettings(String level) {
+		LevelSettings settings = new LevelSettingsFactory().getLevelSettings(level);
+		setLevelSettings(settings);
 	}
 }

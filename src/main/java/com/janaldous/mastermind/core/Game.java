@@ -14,7 +14,7 @@ public class Game {
 		return curIndex < board.getMaxGuesses();
 	}
 	
-	public GuessResult guess(int[] pegs) throws NoMoreGuessesException {
+	public GuessResult guess(int[] pegs) {
 		if (pegs == null || pegs.length != 4) {
 			throw new IllegalArgumentException("Invalid number of pegs");
 		}
@@ -31,9 +31,14 @@ public class Game {
 		
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
 		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
+		boolean hasWon = redPegs == 4;
 		
-		GuessResult result = new GuessResult(redPegs, whitePegs, redPegs == 4);
+		GuessResult result = new GuessResult(redPegs, whitePegs, hasWon);
 		board.setGuessResult(curIndex, result);
+		
+		if (hasWon) {
+			curIndex = board.getMaxGuesses();
+		}
 		
 		curIndex++;
 		

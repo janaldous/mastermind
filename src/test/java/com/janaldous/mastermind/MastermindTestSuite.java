@@ -3,6 +3,7 @@ package com.janaldous.mastermind;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import com.janaldous.mastermind.core.GameSettingsTest;
 import com.janaldous.mastermind.core.GameTest;
 import com.janaldous.mastermind.gui.ModelTest;
 
@@ -10,7 +11,8 @@ import com.janaldous.mastermind.gui.ModelTest;
 
 @Suite.SuiteClasses({
    GameTest.class,
-   ModelTest.class
+   ModelTest.class,
+   GameSettingsTest.class
 })
 public class MastermindTestSuite {
 

@@ -38,11 +38,9 @@ public class BoardFrame extends JFrame {
     private JButton jbColumn3;
     private JButton jbColumn4;
 
-	private int rows;
+	private final static int rows = 10;
     
-	public BoardFrame(String title, int rows) {
-		this.rows = rows;
-		
+	public BoardFrame(String title) {
 		setTitle(title);
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setLocation(FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
@@ -154,7 +152,7 @@ public class BoardFrame extends JFrame {
 		JOptionPane.showMessageDialog(this, message);
 	}
 
-	public void startNewGame(int[] answer) {
+	public void startNewGame(int noOfRows, int[] answer) {
 		String emptyPeg = getPegFilename(0);
 		// Set guess grid
         for (int i = 0; i < rows; i++) {
@@ -163,6 +161,18 @@ public class BoardFrame extends JFrame {
             jlBoardColumn[i][2].setIcon(new ImageIcon(emptyPeg));
             jlBoardColumn[i][3].setIcon(new ImageIcon(emptyPeg));
         	
+            if (i < noOfRows) {
+            	jlBoardColumn[i][0].setVisible(true);
+                jlBoardColumn[i][1].setVisible(true);
+                jlBoardColumn[i][2].setVisible(true);
+                jlBoardColumn[i][3].setVisible(true);
+            } else {
+            	jlBoardColumn[i][0].setVisible(false);
+                jlBoardColumn[i][1].setVisible(false);
+                jlBoardColumn[i][2].setVisible(false);
+                jlBoardColumn[i][3].setVisible(false);
+            }
+            
         	jlRedPegs[i].setText(0 + "");
         	jlRedPegs[i].setVisible(false);
             

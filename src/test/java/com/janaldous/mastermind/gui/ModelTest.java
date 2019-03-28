@@ -15,6 +15,7 @@ public class ModelTest {
 	@Test
 	public void testNewRowToggleColor() {
 		Model model = new Model();
+		model.setLevelSettings("HARD");
 		int color = model.toggleColor(0);
 		assertEquals(1, color);
 		
@@ -29,6 +30,7 @@ public class ModelTest {
 	public void testChangedRowToggleColor() {
 		Game game = mock(Game.class);
 		Model model = new Model();
+		model.setLevelSettings("HARD");
 		model.setGame(game);
 		when(game.getCurrentRowIndex()).thenReturn(0);
 		Row row = new Row();
