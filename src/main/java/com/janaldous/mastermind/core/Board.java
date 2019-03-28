@@ -28,4 +28,8 @@ public class Board {
 	public void setColor(int row, int col, int color) {
 		rows[row].setColor(col, color);
 	}
+
+	public void setGuessResult(int row, GuessResult result) {
+		rows[row].setResult(result);
+	}
 }

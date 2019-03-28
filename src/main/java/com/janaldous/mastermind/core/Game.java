@@ -33,8 +33,7 @@ public class Game {
 		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
 		
 		GuessResult result = new GuessResult(redPegs, whitePegs, redPegs == 4);
-		Row row = new Row(pegs);
-		row.setResult(result);
+		board.setGuessResult(curIndex, result);
 		
 		curIndex++;
 		
@@ -76,5 +75,17 @@ public class Game {
 
 	public int getCurrentRowIndex() {
 		return curIndex;
+	}
+
+	public int[] getAnswer() {
+		return board.getAnswer().getRow();
+	}
+
+	public void setColor(int currentRowIndex, int col, int color) {
+		board.setColor(currentRowIndex, col, color);
+	}
+
+	public Row getRow(int row) {
+		return board.getRow(row);
 	}
 }

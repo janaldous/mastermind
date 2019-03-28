@@ -6,18 +6,19 @@ import com.janaldous.mastermind.core.GuessResult;
 
 public class Model {
 	
-	private Board board;
 	private Game game;
-	private int row[];
 
 	public Model() {
-		board = new Board(createRandomCode());
+		Board board = new Board(createRandomCode());
 		game = new Game(board);
-		clearRowData();
+	}
+	
+	void setGame(Game game) {
+		this.game = game;
 	}
 	
 	public int[] getAnswer() {
-		return board.getAnswer().getRow();
+		return game.getAnswer();
 	}
 
 	private int[] createRandomCode() {
@@ -40,29 +41,22 @@ public class Model {
 	public boolean hasNextGuess() {
 		return game.hasNextGuess();
 	}
-	
-	public void setColor(int col, int color) {
-		board.setColor(game.getCurrentRowIndex(), col, color);
-	}
 
-	public int getNextColor(int col) {
-		row[col]++;
+	public int toggleColor(int col) {
+		int color = game.getRow(game.getCurrentRowIndex()).getRow()[col];
+		
+		color++;
 
-        if (row[col] == Board.NO_OF_COLORS+1) {
-        	row[col] = 1;
+        if (color > Board.NO_OF_COLORS) {
+        	color = 1;
         }
         
-		return row[col];
-	}
-	
-	public void clearRowData() {
-		row = new int[4];
-        for (int i = 0; i < row.length; i++) {
-			row[i] = 0;
-		}
+        game.setColor(game.getCurrentRowIndex(), col, color);
+        
+		return color;
 	}
 
 	public int[] getRowGuess(int curIndex) {
-		return board.getRow(curIndex).getRow();
+		return game.getRow(curIndex).getRow();
 	}
 }

@@ -33,8 +33,7 @@ public class Controller {
 		if (!model.hasNextGuess()) {
 			throw new NoMoreGuessesException();
 		}
-		int color = model.getNextColor(i);
-		model.setColor(i, color);
+		int color = model.toggleColor(i);
 		view.changePeg(model.getCurrentRowIndex(), i, color);
 	}
 
@@ -42,6 +41,7 @@ public class Controller {
 		if (!model.hasNextGuess()) {
 			throw new NoMoreGuessesException();
 		}
+		
 		int curIndex = model.getCurrentRowIndex();
 		int row[] = model.getRowGuess(curIndex);
 		for (int i = 0; i < row.length; i++) {
@@ -54,17 +54,12 @@ public class Controller {
 		GuessResult result = model.makeGuess(row);
 		view.setGuessResult(curIndex, result.getRedPegs(), result.getWhitePegs());
 		
-		if (result.hasWon()) {
-			view.showMessage("Congratulations!\nYou have guessed the correct color combination.");
-			view.showAnswer();
-			if (askPlayAgain()) {
-				model = new Model();
-				view.startNewGame(model.getAnswer());
+		if (!model.hasNextGuess()) {
+			if (result.hasWon()) {
+				view.showMessage("Congratulations!\nYou have guessed the correct color combination.");
+			} else  {
+				view.showMessage("Incorrect\nYou have not guessed the correct color combination.");
 			}
-		} else if (model.hasNextGuess()) {
-			model.clearRowData();
-		} else  {
-			view.showMessage("Incorrect\nYou have not guessed the correct color combination.");
 			view.showAnswer();
 			if (askPlayAgain()) {
 				model = new Model();
