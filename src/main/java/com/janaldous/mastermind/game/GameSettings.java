@@ -1,4 +1,4 @@
-package com.janaldous.mastermind.core;
+package com.janaldous.mastermind.game;
 
 public class GameSettings {
 	

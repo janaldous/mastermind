@@ -30,6 +30,7 @@ public class GameTest {
 		
 		assertEquals(4, result.getRedPegs());
 		assertEquals(0, result.getWhitePegs());
+		assertEquals(true, result.hasWon());
 	}
 	
 	@Test
@@ -73,10 +74,10 @@ public class GameTest {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
-		int[] guess = {1,3,6,7};
+		int[] guess = {1,3,6,4};
 		GuessResult result = game.guess(guess);
 		
-		assertEquals(1, result.getRedPegs());
+		assertEquals(2, result.getRedPegs());
 		assertEquals(1, result.getWhitePegs());
 	}
 	
@@ -85,22 +86,24 @@ public class GameTest {
 		int[] answer = {1,2,4,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
-		int[] guess = {4,3,2,1};
+		int[] guess = {4,2,2,1};
 		GuessResult result = game.guess(guess);
 		
-		assertEquals(0, result.getRedPegs());
-		assertEquals(3, result.getWhitePegs());
+		assertEquals(1, result.getRedPegs());
+		assertEquals(2, result.getWhitePegs());
 	}
 	
 	@Test
-	public void testGuessCorrectCombo() {
+	public void testCorrectColorDuplicate5() {
 		int[] answer = {1,2,4,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
-		int[] guess = {1,2,4,4};
+		int[] guess = {4,4,2,1};
 		GuessResult result = game.guess(guess);
 		
-		assertEquals(true, result.hasWon());
+		assertEquals(0, result.getRedPegs());
+		assertEquals(4, result.getWhitePegs());
+		assertEquals(false, result.hasWon());
 	}
 	
 	@Test(expected = NoMoreGuessesException.class)

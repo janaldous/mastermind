@@ -31,7 +31,7 @@ public class Game {
 		
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
 		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
-		boolean hasWon = redPegs == 4;
+		boolean hasWon = (redPegs == 4);
 		
 		GuessResult result = new GuessResult(redPegs, whitePegs, hasWon);
 		board.setGuessResult(curIndex, result);

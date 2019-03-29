@@ -1,11 +1,14 @@
 package com.janaldous.mastermind.gui;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.janaldous.mastermind.core.Board;
 import com.janaldous.mastermind.core.Game;
-import com.janaldous.mastermind.core.GameSettings;
 import com.janaldous.mastermind.core.GuessResult;
-import com.janaldous.mastermind.core.LevelSettings;
-import com.janaldous.mastermind.core.LevelSettingsFactory;
+import com.janaldous.mastermind.game.GameSettings;
+import com.janaldous.mastermind.game.LevelSettings;
+import com.janaldous.mastermind.game.LevelSettingsFactory;
 
 public class Model {
 	
@@ -23,9 +26,12 @@ public class Model {
 	}
 	
 	public void setLevelSettings(LevelSettings settings) {
+		if (noOfColors != 0 || maxGuesses != 0) {
+			throw new IllegalStateException("Settings has already been set");
+		}
 		this.noOfColors = settings.getNoOfColors();
 		this.maxGuesses = settings.getNoOfGuesses();
-		initModel(createRandomCode());
+		initModel(createRandomCode(settings.hasDuplicateColor()));
 	}
 	
 	private void initModel(int answer[]) {
@@ -41,10 +47,14 @@ public class Model {
 		return game.getAnswer();
 	}
 
-	private int[] createRandomCode() {
+	public int[] createRandomCode(boolean duplicate) {
 		int ans[] = new int[4];
-		for (int j = 0; j < 4; j++) {
-            ans[j]  = (int) Math.floor(Math.random() * noOfColors) + 1;
+		Set<Integer> set = new HashSet<>();
+		for (int i = 0; i < 4; i++) {
+            ans[i]  = (int) Math.floor(Math.random() * noOfColors) + 1;
+            if (!duplicate && !set.add(ans[i])) {
+            	i--;
+            }
         }
 		return ans;
 	}
@@ -88,7 +98,21 @@ public class Model {
 	}
 
 	public void setLevelSettings(String level) {
-		LevelSettings settings = new LevelSettingsFactory().getLevelSettings(level);
+		LevelSettings settings = new LevelSettingsFactory().createLevelSettings(level);
 		setLevelSettings(settings);
+	}
+
+	/**
+	 * @return the noOfColors
+	 */
+	public int getNoOfColors() {
+		return noOfColors;
+	}
+
+	/**
+	 * @param noOfColors the noOfColors to set
+	 */
+	public void setNoOfColors(int noOfColors) {
+		this.noOfColors = noOfColors;
 	}
 }

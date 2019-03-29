@@ -82,10 +82,19 @@ public class Controller {
 	private String askGameLevel() {
 		String code = JOptionPane.showInputDialog(
 				view.getView(), 
-				"Enter your level: { EASY, MED, HARD }", 
+				"Enter your level: { [1] EASY, [2] MED, [3] HARD }", 
 				"Level settings", 
 				JOptionPane.INFORMATION_MESSAGE
 				);
-		return code;
+		switch(code) {
+		case "1":
+			return "EASY";
+		case "2":
+			return "MED";
+		case "3":
+			return "HARD";
+		default:
+			throw new IllegalArgumentException();
+		}
 	}
 }

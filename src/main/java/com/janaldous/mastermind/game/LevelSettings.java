@@ -1,13 +1,15 @@
-package com.janaldous.mastermind.core;
+package com.janaldous.mastermind.game;
 
 public final class LevelSettings {
 	
 	private int noOfColors;
 	private int noOfGuesses;
+	private boolean hasDuplicateColor;
 	
-	public LevelSettings(int noOfColors, int noOfGuesses) {
+	public LevelSettings(int noOfColors, int noOfGuesses, boolean hasDuplicateColor) {
 		this.noOfColors = noOfColors;
 		this.noOfGuesses = noOfGuesses;
+		this.hasDuplicateColor = hasDuplicateColor;
 	}
 
 	/**
@@ -36,5 +38,19 @@ public final class LevelSettings {
 	 */
 	public void setNoOfGuesses(int noOfGuesses) {
 		this.noOfGuesses = noOfGuesses;
+	}
+
+	/**
+	 * @return the hasDuplicateColor
+	 */
+	public boolean hasDuplicateColor() {
+		return hasDuplicateColor;
+	}
+
+	/**
+	 * @param hasDuplicateColor the hasDuplicateColor to set
+	 */
+	public void setHasDuplicateColor(boolean hasDuplicateColor) {
+		this.hasDuplicateColor = hasDuplicateColor;
 	}
 }
