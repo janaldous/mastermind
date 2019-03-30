@@ -3,6 +3,7 @@ package com.janaldous.mastermind.gui;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 public class View {
@@ -59,5 +60,22 @@ public class View {
 
 	public void changePeg(int rowIndex, int columnIndex, int color) {
 		jfBoard.changePeg(rowIndex, columnIndex, color);
+	}
+
+	public String askGameLevel() {
+		return JOptionPane.showInputDialog(
+				jfBoard, 
+				"Enter your level: { [1] EASY, [2] MED, [3] HARD }", 
+				"Level settings", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public boolean askPlayAgain() {
+		int selection =  JOptionPane.showConfirmDialog(
+				jfBoard,
+				"Do you want to play again?",
+				"New game?",
+				JOptionPane.YES_NO_OPTION);
+		return selection == JOptionPane.YES_OPTION;
 	}
 }

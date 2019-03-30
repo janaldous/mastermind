@@ -14,7 +14,7 @@ public class Game {
 		return curIndex < board.getMaxGuesses();
 	}
 	
-	public GuessResult guess(int[] pegs) {
+	public GuessResult guess(int[] pegs) throws InvalidColorException {
 		if (pegs == null || pegs.length != 4) {
 			throw new IllegalArgumentException("Invalid number of pegs");
 		}
@@ -22,10 +22,10 @@ public class Game {
 		if (!hasNextGuess()) {
 			throw new NoMoreGuessesException();
 		}
-		
+
 		for (int peg: pegs) {
 			if (!board.isValidColor(peg)) {
-				throw new IllegalArgumentException("Invalid peg input");
+				throw new InvalidColorException("Invalid peg input");
 			}
 		}
 		
@@ -100,5 +100,9 @@ public class Game {
 
 	public boolean isValidColor(int color) {
 		return board.isValidColor(color);
+	}
+
+	public int[] getCurRow() {
+		return board.getRow(curIndex).getRow();
 	}
 }

@@ -1,8 +1,7 @@
 package com.janaldous.mastermind.gui;
 
-import javax.swing.JOptionPane;
-
 import com.janaldous.mastermind.core.GuessResult;
+import com.janaldous.mastermind.core.InvalidColorException;
 
 public class Controller {
 
@@ -29,7 +28,7 @@ public class Controller {
 		view.getChangePeg4Button().addActionListener(e -> changePeg(3));
 	}
 
-	private void changePeg(int i) {
+	void changePeg(int i) {
 		if (!model.hasNextGuess()) {
 			return;
 		}
@@ -37,55 +36,41 @@ public class Controller {
 		view.changePeg(model.getCurrentRowIndex(), i, color);
 	}
 
-	private void makeGuess() {
+	void makeGuess() {
 		if (!model.hasNextGuess()) {
 			return;
 		}
 
-		int curIndex = model.getCurrentRowIndex();
-		int row[] = model.getRowGuess(curIndex);
-		for (int i = 0; i < row.length; i++) {
-			if (!model.isValidColor(row[i])) {
-				view.showMessage("Invalid guess.");
-				return;
+		try {
+			GuessResult result = model.makeGuess();
+			int curIndex = model.getCurrentRowIndex();
+			view.setGuessResult(curIndex, result.getRedPegs(), result.getWhitePegs());
+			
+			if (!model.hasNextGuess()) {
+				if (result.hasWon()) {
+					view.showMessage("Congratulations!\nYou have guessed the correct color combination.");
+				} else  {
+					view.showMessage("Incorrect\nYou have not guessed the correct color combination.");
+				}
+				view.showAnswer();
+				askPlayAgain();
 			}
-		}
-
-		GuessResult result = model.makeGuess(row);
-		view.setGuessResult(curIndex, result.getRedPegs(), result.getWhitePegs());
-
-		if (!model.hasNextGuess()) {
-			if (result.hasWon()) {
-				view.showMessage("Congratulations!\nYou have guessed the correct color combination.");
-			} else  {
-				view.showMessage("Incorrect\nYou have not guessed the correct color combination.");
-			}
-			view.showAnswer();
-			if (askPlayAgain()) {
-				String level = askGameLevel();
-				model = new Model();
-				model.setLevelSettings(level);
-				view.startNewGame(model.getNoOfGuesses(), model.getAnswer());
-			}
+		} catch (InvalidColorException e) {
+			view.showMessage("Invalid guess.");
 		}
 	}
 
-	private boolean askPlayAgain() {
-		int selection = JOptionPane.showConfirmDialog(view.getView(),
-				"Do you want to play again?",
-				"New game?",
-				JOptionPane.YES_NO_OPTION);
-
-		return selection == JOptionPane.YES_OPTION;
+	private void askPlayAgain() {
+		if (view.askPlayAgain()) {
+			String level = askGameLevel();
+			model = new Model();
+			model.setLevelSettings(level);
+			view.startNewGame(model.getNoOfGuesses(), model.getAnswer());
+		}
 	}
 
-	private String askGameLevel() {
-		String code = JOptionPane.showInputDialog(
-				view.getView(), 
-				"Enter your level: { [1] EASY, [2] MED, [3] HARD }", 
-				"Level settings", 
-				JOptionPane.INFORMATION_MESSAGE
-				);
+	String askGameLevel() {
+		String code = view.askGameLevel();
 		switch(code) {
 		case "1":
 			return "EASY";

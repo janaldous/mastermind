@@ -5,14 +5,16 @@ import org.junit.runners.Suite;
 
 import com.janaldous.mastermind.core.GameSettingsTest;
 import com.janaldous.mastermind.core.GameTest;
+import com.janaldous.mastermind.gui.ControllerTest;
 import com.janaldous.mastermind.gui.ModelTest;
 
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
    GameTest.class,
+   GameSettingsTest.class,
    ModelTest.class,
-   GameSettingsTest.class
+   ControllerTest.class
 })
 public class MastermindTestSuite {
 

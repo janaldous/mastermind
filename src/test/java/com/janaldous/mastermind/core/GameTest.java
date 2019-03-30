@@ -10,7 +10,7 @@ import org.junit.Test;
 public class GameTest {
 	
 	@Test
-	public void testCorrectCurIndex() {
+	public void testCorrectCurIndex() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -21,7 +21,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectPosition() {
+	public void testCorrectPosition() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -34,7 +34,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColor() {
+	public void testCorrectColor() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -46,7 +46,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColorDuplicate() {
+	public void testCorrectColorDuplicate() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -58,7 +58,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColorDuplicate2() {
+	public void testCorrectColorDuplicate2() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -70,7 +70,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColorDuplicate3() {
+	public void testCorrectColorDuplicate3() throws InvalidColorException {
 		int[] answer = {1,2,3,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -82,7 +82,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColorDuplicate4() {
+	public void testCorrectColorDuplicate4() throws InvalidColorException {
 		int[] answer = {1,2,4,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -94,7 +94,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testCorrectColorDuplicate5() {
+	public void testCorrectColorDuplicate5() throws InvalidColorException {
 		int[] answer = {1,2,4,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -107,7 +107,7 @@ public class GameTest {
 	}
 	
 	@Test(expected = NoMoreGuessesException.class)
-	public void testGuessCorrectComboThenGuessAgain() {
+	public void testGuessCorrectComboThenGuessAgain() throws InvalidColorException {
 		int[] answer = {1,2,4,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
@@ -117,7 +117,7 @@ public class GameTest {
 	}
 	
 	@Test(expected = NoMoreGuessesException.class)
-	public void testNoMoreGuesses() {
+	public void testNoMoreGuesses() throws InvalidColorException {
 		Board board = mock(Board.class);
 		Game game = new Game(board);
 		int[] guess = {4,3,2,1};
@@ -126,7 +126,7 @@ public class GameTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testGiven3PegGuess() {
+	public void testGiven3PegGuess() throws InvalidColorException {
 		Board board = mock(Board.class);
 		Game game = new Game(board);
 		int[] guess = {4,3,2};
@@ -135,15 +135,15 @@ public class GameTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testGivenNullPegGuess() {
+	public void testGivenNullPegGuess() throws InvalidColorException {
 		Board board = mock(Board.class);
 		Game game = new Game(board);
 		when(board.getMaxGuesses()).thenReturn(1);
 		game.guess(null);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testGivenInvalidColorPegGuess() {
+	@Test(expected = InvalidColorException.class)
+	public void testGivenInvalidColorPegGuess() throws InvalidColorException {
 		Board board = mock(Board.class);
 		Game game = new Game(board);
 		when(board.getMaxGuesses()).thenReturn(1);

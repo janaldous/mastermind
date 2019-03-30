@@ -6,6 +6,7 @@ import java.util.Set;
 import com.janaldous.mastermind.core.Board;
 import com.janaldous.mastermind.core.Game;
 import com.janaldous.mastermind.core.GuessResult;
+import com.janaldous.mastermind.core.InvalidColorException;
 import com.janaldous.mastermind.game.GameSettings;
 import com.janaldous.mastermind.game.LevelSettings;
 import com.janaldous.mastermind.game.LevelSettingsFactory;
@@ -63,7 +64,8 @@ public class Model {
 		return game.getCurrentRowIndex();
 	}
 
-	public GuessResult makeGuess(int[] row) {
+	public GuessResult makeGuess() throws InvalidColorException {
+		int row[] = game.getCurRow();
 		return game.guess(row);
 	}
 
