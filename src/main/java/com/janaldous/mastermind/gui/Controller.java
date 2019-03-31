@@ -1,5 +1,7 @@
 package com.janaldous.mastermind.gui;
 
+import java.util.Arrays;
+
 import com.janaldous.mastermind.core.GuessResult;
 import com.janaldous.mastermind.core.InvalidColorException;
 
@@ -22,17 +24,22 @@ public class Controller {
 
 	public void initController() {
 		view.getGuessButton().addActionListener(e -> makeGuess());
-		view.getChangePeg1Button().addActionListener(e -> changePeg(0));
-		view.getChangePeg2Button().addActionListener(e -> changePeg(1));
-		view.getChangePeg3Button().addActionListener(e -> changePeg(2));
-		view.getChangePeg4Button().addActionListener(e -> changePeg(3));
+		view.getChangePeg1UpButton().addActionListener(e -> changePeg(true, 0));
+		view.getChangePeg2UpButton().addActionListener(e -> changePeg(true, 1));
+		view.getChangePeg3UpButton().addActionListener(e -> changePeg(true, 2));
+		view.getChangePeg4UpButton().addActionListener(e -> changePeg(true, 3));
+		view.getChangePeg1DownButton().addActionListener(e -> changePeg(false, 0));
+		view.getChangePeg2DownButton().addActionListener(e -> changePeg(false, 1));
+		view.getChangePeg3DownButton().addActionListener(e -> changePeg(false, 2));
+		view.getChangePeg4DownButton().addActionListener(e -> changePeg(false, 3));
 	}
 
-	void changePeg(int i) {
+	void changePeg(boolean up, int i) {
 		if (!model.hasNextGuess()) {
 			return;
 		}
-		int color = model.toggleColor(i);
+		
+		int color = up ? model.incrementColor(i) : model.decrementColor(i);
 		view.changePeg(model.getCurrentRowIndex(), i, color);
 	}
 
@@ -42,8 +49,10 @@ public class Controller {
 		}
 
 		try {
-			GuessResult result = model.makeGuess();
 			int curIndex = model.getCurrentRowIndex();
+			System.out.println(Arrays.toString(model.getRowGuess(curIndex)));
+			System.out.println("ans" + Arrays.toString(model.getAnswer()));
+			GuessResult result = model.makeGuess();
 			view.setGuessResult(curIndex, result.getRedPegs(), result.getWhitePegs());
 			
 			if (!model.hasNextGuess()) {
@@ -78,6 +87,8 @@ public class Controller {
 			return "MED";
 		case "3":
 			return "HARD";
+		case "":
+			return "ORIG";
 		default:
 			throw new IllegalArgumentException();
 		}

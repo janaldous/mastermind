@@ -21,11 +21,11 @@ public class ModelTest {
 	public void testNewRowToggleColor() {
 		Model model = new Model();
 		model.setLevelSettings("HARD");
-		int color = model.toggleColor(0);
+		int color = model.incrementColor(0);
 		assertEquals(1, color);
 		
-		color = model.toggleColor(0);
-		color = model.toggleColor(0);
+		color = model.incrementColor(0);
+		color = model.incrementColor(0);
 		
 		int ans[] = model.getRowGuess(0);
 		assertArrayEquals(new int[] {3, 0, 0, 0}, ans);
@@ -45,8 +45,44 @@ public class ModelTest {
 		row.setColor(3, 1);
 		when(game.getRow(0)).thenReturn(row);
 		
-		int color = model.toggleColor(0);
+		int color = model.incrementColor(0);
 		assertEquals(2, color);
+	}
+	
+	@Test
+	public void testChangedRowDecrementColor1() {
+		Game game = mock(Game.class);
+		Model model = new Model();
+		model.setLevelSettings("HARD");
+		model.setGame(game);
+		when(game.getCurrentRowIndex()).thenReturn(0);
+		Row row = new Row();
+		row.setColor(0, 2);
+		row.setColor(1, 1);
+		row.setColor(2, 1);
+		row.setColor(3, 1);
+		when(game.getRow(0)).thenReturn(row);
+		
+		int color = model.decrementColor(0);
+		assertEquals(1, color);
+	}
+	
+	@Test
+	public void testChangedRowDecrementColor() {
+		Game game = mock(Game.class);
+		Model model = new Model();
+		model.setLevelSettings("HARD");
+		model.setGame(game);
+		when(game.getCurrentRowIndex()).thenReturn(0);
+		Row row = new Row();
+		row.setColor(0, 1);
+		row.setColor(1, 1);
+		row.setColor(2, 1);
+		row.setColor(3, 1);
+		when(game.getRow(0)).thenReturn(row);
+		
+		int color = model.decrementColor(0);
+		assertEquals(model.getNoOfColors(), color);
 	}
 	
 	@Test
@@ -62,7 +98,7 @@ public class ModelTest {
 		row.setColor(3, 1);
 		when(game.getRow(0)).thenReturn(row);
 		
-		int color = model.toggleColor(0);
+		int color = model.incrementColor(0);
 		assertEquals(1, color);
 	}
 	

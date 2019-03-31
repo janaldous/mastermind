@@ -95,14 +95,27 @@ public class GameTest {
 	
 	@Test
 	public void testCorrectColorDuplicate5() throws InvalidColorException {
-		int[] answer = {1,2,4,4};
+		int[] answer = {1,2,5,4};
 		Board board = new Board(answer, 3, 8);
 		Game game = new Game(board);
 		int[] guess = {4,4,2,1};
 		GuessResult result = game.guess(guess);
 		
 		assertEquals(0, result.getRedPegs());
-		assertEquals(4, result.getWhitePegs());
+		assertEquals(3, result.getWhitePegs());
+		assertEquals(false, result.hasWon());
+	}
+	
+	@Test
+	public void testCorrectColor6() throws InvalidColorException {
+		int[] answer = {3, 1, 5, 2};
+		Board board = new Board(answer, 3, 8);
+		Game game = new Game(board);
+		int[] guess2 = {5, 3, 4, 2};
+		GuessResult result = game.guess(guess2);
+		
+		assertEquals(1, result.getRedPegs());
+		assertEquals(2, result.getWhitePegs());
 		assertEquals(false, result.hasWon());
 	}
 	

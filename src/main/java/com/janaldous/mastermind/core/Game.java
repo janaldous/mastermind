@@ -30,7 +30,7 @@ public class Game {
 		}
 		
 		int redPegs = getCorrectPosition(pegs, board.getAnswer().getRow());
-		int whitePegs = getCorrectColors(pegs, board.getAnswer().getRow());
+		int whitePegs = getCorrectColorsWrongPosition(pegs, board.getAnswer().getRow());
 		boolean hasWon = (redPegs == 4);
 		
 		GuessResult result = new GuessResult(redPegs, whitePegs, hasWon);
@@ -57,7 +57,7 @@ public class Game {
         return redPegs;
 	}
 	
-	private int getCorrectColors(int guess[], int answer[]) {
+	private int getCorrectColorsWrongPosition(int guess[], int answer[]) {
 		int whitePegs = 0;
 		int guessColors[] = new int[board.getNoOfColors()+1];
 		int answerColors[] = new int[board.getNoOfColors()+1];
@@ -69,7 +69,7 @@ public class Game {
 			}
         }
 		
-        for (int i = 0; i < board.getNoOfColors(); i++) {
+        for (int i = 0; i < guessColors.length; i++) {
         	if (guessColors[i] > 0 && answerColors[i] > 0) {
         		whitePegs += Math.min(answerColors[i], guessColors[i]);
         	}

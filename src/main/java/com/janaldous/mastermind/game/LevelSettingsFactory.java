@@ -10,6 +10,8 @@ public class LevelSettingsFactory {
 			return new LevelSettings(5, 10, true);
 		} else if ("HARD".equals(level)) {
 			return new LevelSettings(8, 5, true);
+		} else if ("ORIG".equals(level)) {
+			return new LevelSettings(6, 12, false);
 		}
 		
 		return null;

@@ -73,13 +73,27 @@ public class Model {
 		return game.hasNextGuess();
 	}
 
-	public int toggleColor(int col) {
+	public int incrementColor(int col) {
 		int color = game.getRow(game.getCurrentRowIndex()).getRow()[col];
 		
 		color++;
 
         if (color > noOfColors) {
         	color = 1;
+        }
+        
+        game.setColor(game.getCurrentRowIndex(), col, color);
+        
+		return color;
+	}
+	
+	public int decrementColor(int col) {
+		int color = game.getRow(game.getCurrentRowIndex()).getRow()[col];
+		
+		color--;
+
+        if (color <= 0) {
+        	color = noOfColors;
         }
         
         game.setColor(game.getCurrentRowIndex(), col, color);
