@@ -1,7 +1,5 @@
 package com.janaldous.mastermind.gui;
 
-import java.util.Arrays;
-
 import com.janaldous.mastermind.core.GuessResult;
 import com.janaldous.mastermind.core.InvalidColorException;
 
@@ -50,8 +48,6 @@ public class Controller {
 
 		try {
 			int curIndex = model.getCurrentRowIndex();
-			System.out.println(Arrays.toString(model.getRowGuess(curIndex)));
-			System.out.println("ans" + Arrays.toString(model.getAnswer()));
 			GuessResult result = model.makeGuess();
 			view.setGuessResult(curIndex, result.getRedPegs(), result.getWhitePegs());
 			

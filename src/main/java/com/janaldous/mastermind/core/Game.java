@@ -45,7 +45,7 @@ public class Game {
 		return result;
 	}
 
-	private int getCorrectPosition(int[] guess, int[] answer) {
+	public int getCorrectPosition(int[] guess, int[] answer) {
         int redPegs = 0;
 
         for (int i = 0; i < 4; i++) {
