@@ -30,11 +30,11 @@ public class ControllerTest {
 		assertEquals("ORIG", level);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testAskGameLevelInvalidInput() {
 		View view = mock(View.class);
 		Model model = mock(Model.class);
-		when(view.askGameLevel()).thenReturn("");
+		when(view.askGameLevel()).thenReturn("-");
 		Controller controller = new Controller(model, view);
 		controller.askGameLevel();
 	}
