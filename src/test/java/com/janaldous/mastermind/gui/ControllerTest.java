@@ -19,6 +19,16 @@ public class ControllerTest {
 		String level = controller.askGameLevel();
 		assertEquals("HARD", level);
 	}
+	
+	@Test
+	public void testAskGameLevelEmptyString() {
+		View view = mock(View.class);
+		Model model = mock(Model.class);
+		when(view.askGameLevel()).thenReturn("");
+		Controller controller = new Controller(model, view);
+		String level = controller.askGameLevel();
+		assertEquals("ORIG", level);
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAskGameLevelInvalidInput() {
